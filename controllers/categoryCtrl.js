@@ -11,8 +11,6 @@ const categoryCtrl = {
   },
   createCategory: async (req, res) => {
     try {
-      // if user has role = 1 he's admin
-      // Only admins can create, delete or update the category
       const { name } = req.body;
       const category = await Category.findOne({ name });
       if (category)
@@ -22,6 +20,14 @@ const categoryCtrl = {
 
       await newCategory.save();
       res.json({ msg: 'category created' });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  deleteCategory: async (req, res) => {
+    try {
+      await Category.findByIdAndDelete(req.params.id);
+      res.json({ msg: 'deleted a category' });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

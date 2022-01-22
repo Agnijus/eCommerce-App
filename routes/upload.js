@@ -11,7 +11,7 @@ cloudinary.config({
 });
 
 //Upload image
-router.post('/upload', (req, res) => {
+router.post('/upload', auth, authAdmin, (req, res) => {
   try {
     console.log(req.files);
 
@@ -37,6 +37,21 @@ router.post('/upload', (req, res) => {
         res.json({ public_id: result.public_id, url: result.secure_url });
       }
     );
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
+  }
+});
+
+//Delte image
+router.post('/delete', (req, res) => {
+  try {
+    const { public_id } = req.body;
+    if (!public_id) return res.status(400).json({ msg: 'No images selected' });
+    cloudinary.v2.uploader.destroy(public_id, async (err, result) => {
+      if (err) throw err;
+
+      res.json({ msg: 'Image deleted.' });
+    });
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }

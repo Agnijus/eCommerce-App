@@ -43,12 +43,38 @@ const productCtrl = {
   },
   deleteProduct: async (req, res) => {
     try {
+      await Products.findByIdAndDelete(req.params.id);
+      res.json({ msg: 'The product has been deleted.' });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
   },
   updateProduct: async (req, res) => {
     try {
+      const {
+        product_id,
+        title,
+        price,
+        description,
+        content,
+        images,
+        category,
+      } = req.body;
+      if (!images) return res.status(400).json({ msg: 'No image uploaded.' });
+
+      await Products.findByIdAndUpdate(
+        { _id: req.params.id },
+        {
+          product_id,
+          title: title.toLowerCase(),
+          price,
+          description,
+          content,
+          images,
+          category,
+        }
+      );
+      res.json({ msg: 'product updated.' });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

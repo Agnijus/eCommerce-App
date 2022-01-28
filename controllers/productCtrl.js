@@ -31,13 +31,18 @@ class APIfeatures {
     if (this.queryString.sort) {
       const sortBy = this.queryString.sort.split(',').join(' ');
       this.query = this.query.sort(sortBy);
-      console.log(sortBy);
     } else {
       this.query = this.query.sort('-createdAt');
     }
     return this;
   }
-  paginating() {}
+  paginating() {
+    const page = this.queryString.page * 1 || 1;
+    const limit = this.queryString.limit * 1 || 9;
+    const skip = (page - 1) * limit;
+    this.query = this.query.skip(skip).limit(limit);
+    return this;
+  }
 }
 
 const productCtrl = {
@@ -45,9 +50,14 @@ const productCtrl = {
     try {
       const features = new APIfeatures(Products.find(), req.query)
         .filtering()
-        .sorting();
+        .sorting()
+        .paginating();
       const products = await features.query;
-      res.json(products);
+      res.json({
+        status: 'success',
+        result: products.length,
+        products: products,
+      });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

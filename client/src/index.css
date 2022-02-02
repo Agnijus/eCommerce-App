@@ -31,3 +31,5 @@ button {
   background: transparent;
   cursor: pointer;
 }
+/* --------------- Header --------------- */
+@import url('./components/headers/header.css');

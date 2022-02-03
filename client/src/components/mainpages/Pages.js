@@ -9,11 +9,11 @@ import NotFound from './utils/NotFound/NotFound';
 const Pages = () => {
   return (
     <Routes>
-      <Route path='/' component={Products} />
-      <Route path='/login' component={Login} />
-      <Route path='/register' component={Register} />
-      <Route path='/cart' component={<Cart />} />
-      <Route path='*' component={<NotFound />} />
+      <Route path='/' element={<Products />} />
+      <Route path='/login' element={<Login />} />
+      <Route path='/register' element={<Register />} />
+      <Route path='/cart' element={<Cart />} />
+      <Route path='*' element={<NotFound />} />
     </Routes>
   );
 };

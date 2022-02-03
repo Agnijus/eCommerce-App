@@ -30,7 +30,7 @@ const Header = () => {
       </ul>
       <div className='cart-icon'>
         <span>0</span>
-        <Link to='/'>
+        <Link to='/cart'>
           <img src={Cart} alt='' width='30px' />
         </Link>
       </div>

@@ -15,5 +15,4 @@ const ProductsAPI = () => {
     products: [products, setProducts],
   };
 };
-
 export default ProductsAPI;
